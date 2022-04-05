@@ -24,6 +24,8 @@ import com.drtshock.playervaults.commands.HelpMeCommand;
 import com.drtshock.playervaults.commands.SignCommand;
 import com.drtshock.playervaults.commands.SignSetInfo;
 import com.drtshock.playervaults.commands.VaultCommand;
+import com.drtshock.playervaults.commands.naming_vaults.NameConfig;
+import com.drtshock.playervaults.commands.naming_vaults.PvNameCommand;
 import com.drtshock.playervaults.config.Loader;
 import com.drtshock.playervaults.config.file.Config;
 import com.drtshock.playervaults.config.file.Translation;
@@ -95,6 +97,7 @@ public class PlayerVaults extends JavaPlugin {
     private BukkitAudiences platform;
     private final Translation translation = new Translation(this);
     private final List<String> exceptions = new CopyOnWriteArrayList<>();
+    private NameConfig nameConfig;
 
     public static PlayerVaults getInstance() {
         return instance;
@@ -110,6 +113,10 @@ public class PlayerVaults extends JavaPlugin {
         if (DEBUG) {
             instance.getLogger().log(Level.INFO, s);
         }
+    }
+
+    public NameConfig getNameConfig() {
+        return nameConfig;
     }
 
     @Override
@@ -146,6 +153,8 @@ public class PlayerVaults extends JavaPlugin {
         getCommand("pvconvert").setExecutor(new ConvertCommand(this));
         getCommand("pvsign").setExecutor(new SignCommand(this));
         getCommand("pvhelpme").setExecutor(new HelpMeCommand(this));
+        getCommand("pvname").setExecutor(new PvNameCommand(this));
+        nameConfig = new NameConfig(this);
         debug("registered commands", time);
         time = System.currentTimeMillis();
         useVault = EconomyOperations.setup();

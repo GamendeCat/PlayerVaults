@@ -1,0 +1,21 @@
+lang:
+  help-message:
+    - "&8Private Vault Names: "
+    - "&8- &7/pvname add <name> <number> &8- Adds a name to a private vault"
+    - "&8- &7/pvname remove <name> &8- Removes a name from a private vault"
+    - "&8- &7/pvname clear &8- Clears all names for private vaults"
+    - "&8- &7/pvname list &8- shows all the names specified to private vaults"
+  #This is when a player doesn't have access to this vault
+  no-perm-vault: "&cNo permission to this vault"
+  no-perm: "&cNo permission"
+  pv-add-syntax: "&c/pvname add <name> <number>"
+  pv-remove-syntax: "&c/pvname remove <name>"
+  pv-list-syntax: "&c/pvname list"
+  pv-clear-syntax: "&c/pvname clear"
+  cleared-pv: "&cCleared all pv names!"
+  example-list: "&8You- &5<number> &7: &5<name>"
+  updated-pvname: "&e&lUPDATED &8-> &7" <number> -> <name>"
+  successfully-remove: "&aSuccessfully removed!"
+  no-pv-named: "&cYou don't have a pv named <name>"
+  list-title: "§cPrivate Vaults Names:"
+

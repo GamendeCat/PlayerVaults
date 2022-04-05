@@ -37,3 +37,5 @@ click-a-sign: "&fNow click a sign!"
 not-a-sign: "&cYou must click a sign!"
 set-sign-success: "&fYou have successfully set a PlayerVault access sign!"
 open-with-sign: "&fOpening vault &a%v &fof &a%p"
+
+# These are the language options for the addon
