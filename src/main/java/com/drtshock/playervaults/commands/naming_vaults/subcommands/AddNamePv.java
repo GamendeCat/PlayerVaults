@@ -37,16 +37,19 @@ public class AddNamePv extends SubCommand {
     @Override
     public void onCommand(CommandSender sender, String[] args) {
         Player player = (Player) sender;
-        if(args[0] == null || args[1] == null) {
+        if(args.length < 2) {
             player.sendMessage(plugin.getNameConfig().getPvAddSyntax());
             return;
         }
 
-        int pv = Integer.parseInt(args[2]);
-        if(pv == 0) {
-            //todo send help message
+        int pv;
+        try {
+            pv = Integer.parseInt(args[1]);
+        }catch(NumberFormatException e) {
+            player.sendMessage(plugin.getNameConfig().getPvAddSyntax());
             return;
         }
+
         String pvName = args[0];
 
         if(!VaultOperations.checkPerms(sender, pv)) {

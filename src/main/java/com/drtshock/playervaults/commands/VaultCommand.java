@@ -30,6 +30,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
+import java.util.Map;
+
 public class VaultCommand implements CommandExecutor {
     private final PlayerVaults plugin;
 
@@ -53,9 +55,22 @@ public class VaultCommand implements CommandExecutor {
 
             switch (args.length) {
                 case 1:
+                    if(plugin.getNameConfig().getNamePv(player.getUniqueId().toString()) != null) {
+                        Map<Integer, String> map = plugin.getNameConfig().getNamePv(player.getUniqueId().toString()).getPvNames();
+                        for (int i : map.keySet()) {
+                            String str = map.get(i);
+                            if (str.equalsIgnoreCase(args[0])) {
+                                if (VaultOperations.openOwnVault(player, String.valueOf(i))) {
+                                    PlayerVaults.getInstance().getInVault().put(player.getUniqueId().toString(), new VaultViewInfo(player.getUniqueId().toString(), i));
+                                    return true;
+                                }
+                            }
+                        }
+                    }
+
                     if (VaultOperations.openOwnVault(player, args[0], true)) {
                         PlayerVaults.getInstance().getInVault().put(player.getUniqueId().toString(), new VaultViewInfo(player.getUniqueId().toString(), Integer.parseInt(args[0])));
-                    } else if (sender.hasPermission("playervaults.admin")) {
+                    }else if (sender.hasPermission("playervaults.admin")) {
                         OfflinePlayer searchPlayer = Bukkit.getOfflinePlayer(args[0]);
                         String target = args[0];
                         if (searchPlayer != null) {
@@ -81,6 +96,27 @@ public class VaultCommand implements CommandExecutor {
                         break;
                     }
 
+                    String target = args[0];
+                    OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(args[0]);
+                    if (offlinePlayer != null) {
+                        target = offlinePlayer.getUniqueId().toString();
+                    }
+
+                    if(plugin.getNameConfig().getNamePv(offlinePlayer.getUniqueId().toString()) != null) {
+                        Map<Integer, String> map = plugin.getNameConfig().getNamePv(offlinePlayer.getUniqueId().toString()).getPvNames();
+                        for (int i : map.keySet()) {
+                            String str = map.get(i);
+                            if (str.equalsIgnoreCase(args[1])) {
+                                if (VaultOperations.openOtherVault(player, target, String.valueOf(i))) {
+                                    PlayerVaults.getInstance().getInVault().put(player.getUniqueId().toString(), new VaultViewInfo(target, i));
+                                    return true;
+                                } else {
+                                    this.plugin.getTL().noOwnerFound().title().with("player", args[0]).send(sender);
+                                }
+                            }
+                        }
+                    }
+
                     int number;
                     try {
                         number = Integer.parseInt(args[1]);
@@ -89,11 +125,6 @@ public class VaultCommand implements CommandExecutor {
                         return true;
                     }
 
-                    String target = args[0];
-                    OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(args[0]);
-                    if (offlinePlayer != null) {
-                        target = offlinePlayer.getUniqueId().toString();
-                    }
                     if (VaultOperations.openOtherVault(player, target, args[1])) {
                         PlayerVaults.getInstance().getInVault().put(player.getUniqueId().toString(), new VaultViewInfo(target, number));
                     } else {

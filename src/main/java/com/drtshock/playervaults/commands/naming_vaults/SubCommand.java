@@ -1,10 +1,7 @@
 package com.drtshock.playervaults.commands.naming_vaults;
 
 import com.drtshock.playervaults.PlayerVaults;
-import com.drtshock.playervaults.commands.naming_vaults.subcommands.AddNamePv;
-import com.drtshock.playervaults.commands.naming_vaults.subcommands.ClearNamesPv;
-import com.drtshock.playervaults.commands.naming_vaults.subcommands.ListNamesPv;
-import com.drtshock.playervaults.commands.naming_vaults.subcommands.RemoveNamePv;
+import com.drtshock.playervaults.commands.naming_vaults.subcommands.*;
 import org.bukkit.command.CommandSender;
 
 import java.util.HashMap;

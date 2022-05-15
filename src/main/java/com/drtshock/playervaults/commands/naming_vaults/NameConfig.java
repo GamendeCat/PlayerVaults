@@ -2,6 +2,7 @@ package com.drtshock.playervaults.commands.naming_vaults;
 
 import com.drtshock.playervaults.PlayerVaults;
 import com.drtshock.playervaults.util.ConfigurationFile;
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -14,12 +15,14 @@ public class NameConfig {
     private ConfigurationFile file;
     // Uuid - NamesPVs
     private Map<String, NamePv> uuidToNamePv;
+    private final PlayerVaults plugin;
 
     public NameConfig(PlayerVaults plugin) {
         file = new ConfigurationFile(plugin, "name.yml");
         config = file.getCustomConfig();
         loadUuidToNamePv();
         setValues();
+        this.plugin = plugin;
     }
 
     public NamePv getNamePv(String uuid) {
@@ -45,13 +48,15 @@ public class NameConfig {
     public void addPvName(Player player, String uuid, String name, int number) {
         if(uuidToNamePv.get(uuid) != null) {
             NamePv namePv = uuidToNamePv.get(uuid);
-            namePv.addPvName(player, number, name);
+            namePv.addPvName(plugin, player, number, name);
             config.set(uuid, setNames(namePv));
         }else {
             NamePv namePv = new NamePv();
-            namePv.addPvName(player, number, name);
+            namePv.addPvName(plugin, player, number, name);
+            uuidToNamePv.put(uuid, namePv);
             config.set(uuid, setNames(namePv));
         }
+        file.saveConfig();
     }
 
     public List<String> setNames(NamePv namePv) {
@@ -66,11 +71,11 @@ public class NameConfig {
     public void removePvName(Player player, String uuid, String name) {
         if(uuidToNamePv.get(uuid) != null) {
             NamePv namePv = uuidToNamePv.get(uuid);
-            namePv.removePvName(player, name);
+            namePv.removePvName(plugin, player, name);
             config.set(uuid, setNames(namePv));
         }else {
             NamePv namePv = new NamePv();
-            namePv.removePvName(player, name);
+            namePv.removePvName(plugin, player, name);
             config.set(uuid, setNames(namePv));
         }
         file.saveConfig();
@@ -80,6 +85,7 @@ public class NameConfig {
         if(config.get(uuid) == null) return;
         config.set(uuid, null);
         uuidToNamePv.remove(uuid);
+        file.saveConfig();
     }
 
     private List<String> helpMessage;
@@ -95,23 +101,33 @@ public class NameConfig {
     private String successRemoved;
     private String noPvNamed;
     private String listTitle;
+    private String pvNameAlreadyExist;
+    private String successAdded;
+    private String noPvNames;
 
     public void setValues() {
-        ConfigurationSection section = config.getConfigurationSection("config");
+        ConfigurationSection section = config.getConfigurationSection("lang");
 
-        listTitle = section.getString("list-title");
-        helpMessage = section.getStringList("help-message");
-        noPermVault = section.getString("no-perm-vault");
-        noPerm = section.getString("no-perm");
-        pvAddSyntax = section.getString("pv-add-syntax");
-        pvRemoveSyntax = section.getString("pv-remove-syntax");
-        pvListSyntax = section.getString("pv-list-syntax");
-        pvClearSyntax = section.getString("pv-clear-syntax");
-        clearedPv = section.getString("cleared-pv");
-        exampleList = section.getString("example-list");
-        updatedPvName = section.getString("updated-pvname");
-        successRemoved = section.getString("successfully-remove");
-        noPvNamed = section.getString("no-pv-named");
+        listTitle = ChatColor.translateAlternateColorCodes('&', section.getString("list-title"));
+        List<String> list = section.getStringList("help-message");
+        helpMessage = new ArrayList<>();
+        for(String i : list) {
+            helpMessage.add(ChatColor.translateAlternateColorCodes('&',i));
+        }
+        noPermVault = ChatColor.translateAlternateColorCodes('&',section.getString("no-perm-vault"));
+        noPerm = ChatColor.translateAlternateColorCodes('&',section.getString("no-perm"));
+        pvAddSyntax = ChatColor.translateAlternateColorCodes('&',section.getString("pv-add-syntax"));
+        pvRemoveSyntax = ChatColor.translateAlternateColorCodes('&',section.getString("pv-remove-syntax"));
+        pvListSyntax = ChatColor.translateAlternateColorCodes('&',section.getString("pv-list-syntax"));
+        pvClearSyntax = ChatColor.translateAlternateColorCodes('&',section.getString("pv-clear-syntax"));
+        clearedPv = ChatColor.translateAlternateColorCodes('&',section.getString("cleared-pv"));
+        exampleList = ChatColor.translateAlternateColorCodes('&',section.getString("example-list"));
+        updatedPvName = ChatColor.translateAlternateColorCodes('&',section.getString("updated-pvname"));
+        successRemoved = ChatColor.translateAlternateColorCodes('&',section.getString("successfully-remove"));
+        noPvNamed = ChatColor.translateAlternateColorCodes('&',section.getString("no-pv-named"));
+        pvNameAlreadyExist = ChatColor.translateAlternateColorCodes('&',section.getString("pv-name-already-exist"));
+        successAdded = ChatColor.translateAlternateColorCodes('&',section.getString("success-added"));
+        noPvNames = ChatColor.translateAlternateColorCodes('&', section.getString("no-pv-names"));
     }
 
     public List<String> getHelpMessage() {
@@ -164,5 +180,17 @@ public class NameConfig {
 
     public String getListTitle() {
         return listTitle;
+    }
+
+    public String getPvNameAlreadyExist() {
+        return pvNameAlreadyExist;
+    }
+
+    public String getSuccessAdded() {
+        return successAdded;
+    }
+
+    public String getNoPvNames() {
+        return noPvNames;
     }
 }

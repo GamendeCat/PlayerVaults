@@ -1,21 +1,35 @@
 lang:
+  #Help message for pv names
   help-message:
-    - "&8Private Vault Names: "
-    - "&8- &7/pvname add <name> <number> &8- Adds a name to a private vault"
-    - "&8- &7/pvname remove <name> &8- Removes a name from a private vault"
-    - "&8- &7/pvname clear &8- Clears all names for private vaults"
-    - "&8- &7/pvname list &8- shows all the names specified to private vaults"
-  #This is when a player doesn't have access to this vault
-  no-perm-vault: "&cNo permission to this vault"
-  no-perm: "&cNo permission"
-  pv-add-syntax: "&c/pvname add <name> <number>"
-  pv-remove-syntax: "&c/pvname remove <name>"
-  pv-list-syntax: "&c/pvname list"
-  pv-clear-syntax: "&c/pvname clear"
-  cleared-pv: "&cCleared all pv names!"
-  example-list: "&8You- &5<number> &7: &5<name>"
-  updated-pvname: "&e&lUPDATED &8-> &7" <number> -> <name>"
-  successfully-remove: "&aSuccessfully removed!"
-  no-pv-named: "&cYou don't have a pv named <name>"
-  list-title: "§cPrivate Vaults Names:"
-
+    - '&8Private Vault Names: '
+    - '&8- &7/pvname add <name> <number> &8- Adds a name to a private vault'
+    - '&8- &7/pvname remove <name> &8- Removes a name from a private vault'
+    - '&8- &7/pvname clear &8- Clears all names for private vaults'
+    - '&8- &7/pvname list &8- shows all the names specified to private vaults'
+  # This is when a player doesn't have access to this vault
+  no-perm-vault: '&cNo permission to this vault'
+  #This is when a player doesn't have permission for a command
+  no-perm: '&cNo permission'
+  #This is when a player types the command wrong
+  pv-add-syntax: '&c/pvname add <name> <number>'
+  pv-remove-syntax: '&c/pvname remove <name>'
+  pv-list-syntax: '&c/pvname list'
+  pv-clear-syntax: '&c/pvname clear'
+  #This is when a player cleared all her/his pv names
+  cleared-pv: '&cCleared all pv names!'
+  #This is when a player runs /pvname list and it will send a message. Example: - 1 : Hello
+  example-list: '&8- &5<number> &7: &5<name>'
+  #This is when you updated a name of a vault!
+  updated-pvname: '&e&lUPDATED &7<last_name> -> <new_name>'
+  #This is when you successfully remove a vault!
+  successfully-remove: '&aSuccessfully removed!'
+  #This is when a player tries to remove a pv name but there is no pv with that name
+  no-pv-named: '&cYou don''t have a pv named <name>'
+  #This is the title that will be send when running the /pvname list command
+  list-title: '&cPrivate Vaults Names:'
+  #This is when a player tries to create a pv name but there is already one with the same name
+  pv-name-already-exist: '&cYou already have a pv named <name>'
+  #This is when it successfully added a new pv name
+  success-added: '&aSuccessfully added <name> to private vault <number>'
+  #This is when a player uses the /pvname list command but has no pv names
+  no-pv-names: "&cYou currently have no private vault names!"

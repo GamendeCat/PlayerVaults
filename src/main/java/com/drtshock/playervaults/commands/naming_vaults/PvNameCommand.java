@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.util.StringUtil;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -32,9 +33,33 @@ public class PvNameCommand implements CommandExecutor, TabCompleter {
 
         Player player = (Player) sender;
 
-        if(args[0] == null) {
-            //todo send help message
+        if(!player.hasPermission("pvname")) {
+
             return true;
+        }
+
+        if(args.length == 0) {
+            for(String i : plugin.getNameConfig().getHelpMessage()) {
+                player.sendMessage(i);
+            }
+            return true;
+        }
+
+        String command = args[0];
+        if (commands.contains(command)) {
+            SubCommand subCommand = SubCommand.getCommands().get(command);
+            if (subCommand.getPermission() != null) {
+                if (!sender.hasPermission(subCommand.getPermission())) {
+                    plugin.getCommand(plugin.getNameConfig().getNoPerm());
+                    return true;
+                }
+            }
+            subCommand.onCommand(sender, Arrays.copyOfRange(args,1, args.length));
+            return true;
+        }
+
+        for(String i : plugin.getNameConfig().getHelpMessage()) {
+            player.sendMessage(i);
         }
 
         return true;

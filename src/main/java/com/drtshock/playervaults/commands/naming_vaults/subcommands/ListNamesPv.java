@@ -6,6 +6,7 @@ import com.drtshock.playervaults.commands.naming_vaults.SubCommand;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -46,11 +47,27 @@ public class ListNamesPv extends SubCommand {
 
         NamePv namePv = plugin.getNameConfig().getNamePv(player.getUniqueId().toString());
 
+        if(namePv == null)  {
+            player.sendMessage(plugin.getNameConfig().getNoPvNames());
+            return;
+        }
+
         player.sendMessage(plugin.getNameConfig().getListTitle());
 
-        Map<Integer, String> map = namePv.getPvNames();
+        Map<Integer, String> map;
 
-        List<Integer> list = (List<Integer>) map.keySet();
+        if(namePv.getPvNames() == null) {
+            player.sendMessage(plugin.getNameConfig().getNoPvNames());
+            return;
+        }
+
+        map = namePv.getPvNames();
+
+        List<Integer> list = new ArrayList<>();
+
+        for(int i : map.keySet()) {
+            list.add(i);
+        }
 
         Collections.sort(list);
 

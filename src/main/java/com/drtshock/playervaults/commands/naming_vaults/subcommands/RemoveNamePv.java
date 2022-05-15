@@ -37,8 +37,8 @@ public class RemoveNamePv extends SubCommand {
     public void onCommand(CommandSender sender, String[] args) {
         Player player = (Player) sender;
 
-        if(args[0] == null) {
-            //todo send help message
+        if(args.length < 1) {
+            player.sendMessage(plugin.getNameConfig().getPvRemoveSyntax());
             return;
         }
 

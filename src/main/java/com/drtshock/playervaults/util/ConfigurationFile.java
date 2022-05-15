@@ -31,6 +31,10 @@ public class ConfigurationFile {
         }
     }
 
+    public void reloadConfig() {
+        YamlConfiguration.loadConfiguration(customConfigFile);
+    }
+
     public void saveConfig() {
         try {
             customConfig.save(customConfigFile);

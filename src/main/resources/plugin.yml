@@ -26,6 +26,9 @@ commands:
   pvhelpme:
     description: Pastes debug info to get better assistance.
     permission: playervaults.admin
+  pvname:
+    description: Names
+    usage: /pvname <name>
 
 permissions:
   playervaults.admin:
